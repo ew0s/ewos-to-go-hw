@@ -1,0 +1,181 @@
+run:
+  # default concurrency is a available CPU number
+  concurrency: 4
+
+  # timeout for analysis, e.g. 30s, 5m, default is 1m
+  deadline: 5m
+
+  # exit code when at least one issue was found, default is 1
+  issues-exit-code: 1
+
+# output configuration options
+output:
+  # colored-line-number|line-number|json|tab|checkstyle|code-climate, default is "colored-line-number"
+  format: colored-line-number
+
+  # print lines of code with issue, default is true
+  print-issued-lines: true
+
+  # print linter name in the end of issue text, default is true
+  print-linter-name: true
+
+  skip-files:
+    - "_*mock.go"
+
+linters:
+  enable:
+    - unused
+    - revive
+    - asciicheck
+    - containedctx
+    - decorder
+    - depguard
+    - dogsled
+    - dupl
+    - durationcheck
+    - errchkjson
+    - errorlint
+    - exportloopref
+    - forcetypeassert
+    - gochecknoinits
+    - gocognit
+    - goconst
+    - gocritic
+    - gocyclo
+    - gocognit
+    - asciicheck
+    - gofmt
+    - goimports
+    - gomodguard
+    - misspell
+    - unparam
+    - dogsled
+    - nakedret
+    - prealloc
+    - gocritic
+    - whitespace
+    - wsl
+    - goprintffuncname
+    - noctx
+    - exportloopref
+    - sqlclosecheck
+    - gofumpt
+    - dupl
+    - goheader
+    - exhaustive
+    - gomnd
+    - nestif
+    - predeclared
+    - goerr113
+    - noctx
+    - exportloopref
+    - sqlclosecheck
+    - errorlint
+    - tparallel
+    - forbidigo
+    - makezero
+    - thelper
+    - gochecknoglobals
+    - ireturn
+
+linters-settings:
+  staticcheck:
+    checks: ["all", "-SA1029"] # https://staticcheck.dev/docs/checks/ SA1029 запрет строк в качестве ключа в контексте
+  errcheck:
+    check-type-assertions: true
+    check-blank: true
+  lll:
+    line-length: 130
+    tab-width: 1
+  errorlint:
+    errorf: false
+    asserts: true
+    comparison: true
+  gosec:
+    excludes:
+      - G307
+      - G304
+  gocyclo:
+    # minimal code complexity to report, 30 by default (but we recommend 10-20)
+    min-complexity: 15
+  maligned:
+    # print struct with more effective memory layout or not, false by default
+    suggest-new: true
+  revive:
+    rules:
+      - name: context-keys-type
+        disabled: true
+      - name: time-equal
+      - name: time-naming
+      - name: var-declaration
+      - name: unexported-return
+      - name: errorf
+      - name: blank-imports
+      - name: context-as-argument
+      - name: dot-imports
+      - name: error-return
+      - name: error-strings
+      - name: error-naming
+      - name: exported
+        disabled: true
+      - name: if-return
+      - name: increment-decrement
+      - name: package-comments
+        disabled: true
+      - name: range
+      - name: receiver-naming
+      - name: indent-error-flow
+      - name: empty-block
+      - name: superfluous-else
+      - name: confusing-naming
+      - name: get-return
+      - name: modifies-parameter
+      - name: confusing-results
+      - name: deep-exit
+      - name: unused-parameter
+      - name: unreachable-code
+      - name: flag-parameter
+      - name: unnecessary-stmt
+      - name: struct-tag
+      - name: modifies-value-receiver
+      - name: constant-logical-expr
+      - name: bool-literal-in-expr
+      - name: redefines-builtin-id
+      - name: range-val-in-closure
+      - name: range-val-address
+      - name: waitgroup-by-value
+      - name: atomic
+      - name: empty-lines
+      - name: call-to-gc
+      - name: duplicated-imports
+      - name: import-shadowing
+      - name: bare-return
+      - name: unused-receiver
+      - name: string-of-int
+      - name: early-return
+      - name: unconditional-recursion
+      - name: identical-branches
+      - name: defer
+        arguments: [ [ "call-chain","loop","method-call","recover", "return" ] ]
+      - name: unexported-naming
+      - name: nested-structs
+      - name: useless-break
+      - name: optimize-operands-order
+
+issues:
+  # don't skip warning about doc comments
+  exclude-use-default: false
+
+  # Excluding configuration per-path, per-linter, per-text and per-source
+  exclude-rules:
+    - linters: [ errcheck ]
+      text: "Error return value of .((os\\.)?std(out|err)\\..*|.*Close|.*Flush|os\\.Remove(All)?|.*printf?|os\\.(Un)?Setenv). is not checked"
+    - linters: [ revive ]
+      text: "should have a package comment, unless it's in another file for this package"
+    - path: _test.go
+      linters:
+        - dupl
+        - gocritic
+        - goconst
+        - containedctx
+        - nestif
