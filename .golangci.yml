@@ -72,7 +72,6 @@ linters:
     - sqlclosecheck
     - errorlint
     - tparallel
-    - forbidigo
     - makezero
     - thelper
     - gochecknoglobals
