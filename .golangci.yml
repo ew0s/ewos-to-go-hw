@@ -29,7 +29,6 @@ linters:
     - asciicheck
     - containedctx
     - decorder
-    - depguard
     - dogsled
     - dupl
     - durationcheck
