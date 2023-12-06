@@ -22,3 +22,6 @@ go.work
 
 # JetBrains IDE
 *.idea
+.idea
+
+.DS_Store
